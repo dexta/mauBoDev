@@ -20,13 +20,19 @@
       {num:"0",name:"Null"},
       {num:"#",name:'<i class="fa fa-download" aria-hidden="true"></i>',icon:"download"}]
   ];
+  this.programmNumber = false;
 
   playNum(num) { 
     return function(e) { 
       if(parseInt(num)>=0) {
-        playFromList(num);
+        if(this.programmNumber) {
+          hotNumber = num;
+        } else {
+          hotNumber = -1;
+          playFromList(num);
+        }
       } else {
-        
+        this.programmNumber = true;
       }
       
       console.log("play num "+num); 
