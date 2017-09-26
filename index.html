@@ -11,10 +11,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <style type='text/css'>
-    ul { list-style: none; }
-    #recordingslist audio { display: block; margin-bottom: 10px; }
-  </style>
+
 </head>
 <body>
 <div class="container">
@@ -39,129 +36,9 @@
   </div>
  </div>
 </div>
-  <script>
-  function __log(e, data) {
-    log.innerHTML += "\n" + e + " " + (data || '');
-  }
-
-  var audio_context;
-  var recorder;
-  var audioList = [];
-  var audioMap = {};
-  var hotNumber = -1;
-  var programmNumber = false;
-
-  function playFromList(num) {
-    if(audioList[num]||false) {
-      audioList[num].play();
-    } else { return 0}
-  }
-
-  function createIDs() {    
-    var uID = parseInt(new Date()*1);
-    var audioName = "testNew_"+uID;
-    return [uID,audioName];
-  }
-
-  function startUserMedia(stream) {
-    var input = audio_context.createMediaStreamSource(stream);
-    __log('Media stream created.');
-
-    // Uncomment if you want the audio to feedback directly
-    //input.connect(audio_context.destination);
-    //__log('Input connected to audio context destination.');
-    
-    recorder = new Recorder(input);
-    __log('Recorder initialised.');
-  }
-
-  function startRecording(button) {
-    recorder && recorder.record();
-    button.disabled = true;
-    button.nextElementSibling.disabled = false;
-    __log('Recording...');
-  }
-
-  function stopRecording(button) {
-    recorder && recorder.stop();
-    button.disabled = true;
-    button.previousElementSibling.disabled = false;
-    __log('Stopped recording.');
-    
-    // create WAV download link using audio data blob
-    createDownloadLink();
-    
-    recorder.clear();
-  }
-
-  function uploadAudio(files) {
-    var tmpID = createIDs();
-    storeAudio(files[0],tmpID[0],tmpID[1]);
-    createAudioElm(files[0],tmpID[0],tmpID[1]);
-  }
-  function createAudioElm(file,uID,name) {
-    var au = document.createElement('audio');
-    au.controls = true;
-    au.src = URL.createObjectURL(file);
-    au.setAttribute("id", "audio_"+uID);
-
-    var li = document.createElement('div');
-    li.className = "row";
-    li.setAttribute("id", "container_"+uID);
-
-    var auW = document.createElement('div');
-    auW.className = 'col-lg-9';
-    audioList.push(au);
-    audioMap[uID] = au;
-    auW.appendChild(au);
-    
-    var btnString = '<div class="col-lg-3"><button class="btn btn-success pull-left" onclick="selectAudio('+uID+')">PRESS</button></div>';
-    li.innerHTML = btnString;
-
-    li.appendChild(auW);
-    recordingslist.appendChild(li);
-    var stringID = "TEST01"+uID+"";
-    
-  }
-
-  function createDownloadLink() {
-    recorder && recorder.exportWAV(function(blob) {
-      var tmpID = createIDs();
-      storeAudio(blob,tmpID[0],tmpID[1]);
-      createAudioElm(blob,tmpID[0],tmpID[1]);
-    });
-  }
-
-  function selectAudio(uID) {
-    console.log("select audio "+uID);
-    if(hotNumber!=-1) {
-      audioList[hotNumber] = audioMap[uID];
-    } else {
-      console.log("no hot number uID"+uID);
-    }
-  }
-
-  window.onload = function init() {
-    try {
-      // webkit shim
-      window.AudioContext = window.AudioContext || window.webkitAudioContext;
-      navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
-      window.URL = window.URL || window.webkitURL;
-      
-      audio_context = new AudioContext;
-      __log('Audio context set up.');
-      __log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
-    } catch (e) {
-      alert('No web audio support in this browser!');
-    }
-    
-    navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-      __log('No live audio input: ' + e);
-    });
-  };
-  </script>
-
   <script src="recorder.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/systemd.js"></script>
   <!-- <inner-tag/> is specified on external file -->
   <script src="components/numberboard.tag" type="riot/tag"></script>
   <!-- include riot.js and the compiler -->
@@ -169,48 +46,9 @@
   <!-- Include Dexie -->
   <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 
+  <script src="js/indexed.js"></script>
   <script type="text/javascript">
     riot.mount('*');
-    //
-    // Define your database
-    //
-    var debugA;
-    var db = new Dexie("audio_database");
-    db.version(1).stores({
-        audioStore: 'uID,name,data'
-    });
-    db.open();
-    var collection = db.audioStore.where('name').startsWithIgnoreCase('t');
-
-    collection.each(function(datas) {
-        console.log('Found: Name ' + datas.name + ' with uID ' + datas.uID);
-        createAudioElm(datas.data);
-    });
-
-    function storeAudio(audioFile,uID,name) {
-      //files[0],tmpID[1],tmpID[0]
-      // Put some data into it
-      //
-      debugA = audioFile;
-      db.audioStore.put({name: name, uID: uID,data: audioFile}).then (function(){
-          //
-          // Then when data is stored, read from it
-          //
-          return db.audioStore.get(uID);
-      }).then(function (datas) {
-          //
-          // Display the result
-          //
-          alert ("sort name is " + datas.name);
-      }).catch(function(error) {
-         //
-         // Finally don't forget to catch any error
-         // that could have happened anywhere in the
-         // code blocks above.
-         //
-         alert ("Ooops: " + error);
-      });
-    }
   </script>
 </body>
 </html>
