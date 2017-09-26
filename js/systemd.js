@@ -58,3 +58,9 @@ function selectAudio(uID) {
     console.log("no hot number uID"+uID);
   }
 }
+
+var OUTLIST = [
+  23,
+  42,
+  64
+];

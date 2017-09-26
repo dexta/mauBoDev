@@ -4,8 +4,9 @@
     <tr each={ line, index in boardWire }>
       <td each={ btn,index in line }>
         <button class="btn btn-lg btn-default" onclick={ playNum(btn.num) }>
-          <span if={ !btn.icon }> { btn.num },{ btn.name } </span>
-          <span if={ btn.icon }> { btn.num } , <i class="fa fa-{ btn.icon }" aria-hidden="true"></i></span>
+          <span> { btn.num } </span>
+          <!-- <span if={ !btn.icon }> { btn.num },{ btn.name } </span> -->
+          <!-- <span if={ btn.icon }> { btn.num } , <i class="fa fa-{ btn.icon }" aria-hidden="true"></i></span> -->
         </button>
       </td>
     </tr>

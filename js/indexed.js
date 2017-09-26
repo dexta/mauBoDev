@@ -28,7 +28,7 @@ function storeAudio(audioFile,uID,name) {
       //
       // Display the result
       //
-      alert ("sort name is " + datas.name);
+      console.log("sort name is " + datas.name);
   }).catch(function(error) {
      //
      // Finally don't forget to catch any error
