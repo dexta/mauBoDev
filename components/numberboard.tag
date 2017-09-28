@@ -23,6 +23,7 @@
   ];
   
 
+
   playNum(num) { 
     return function(e) { 
       if(parseInt(num)>=0) {
@@ -36,7 +37,7 @@
       } else {
         programmNumber = true;
       }
-      
+      dispatcher("recordings",{testlist:[1,2,3,4,5]},{update:true});
       console.log("play num "+num); 
     } 
   }

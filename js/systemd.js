@@ -64,3 +64,12 @@ var OUTLIST = [
   42,
   64
 ];
+
+
+function dispatcher(tagname,updateobj,options) {
+  var tag = document.querySelector(tagname)._tag;
+  for(var u in updateobj) {
+    tag[u] = updateobj[u];
+  }
+  if(options.update||false) tag.update();
+}
