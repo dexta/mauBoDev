@@ -16,10 +16,12 @@
 <body>
 <div class="container">
  <div class="row">
-  <div class="col-lg-6 offset-lg-3">
-    <numberboard></numberboard>  
+  <div class="col-lg-8 offset-lg-2">
+    <!-- <numberboard></numberboard> -->
+    <recordings></recordings>
   </div>
-  <div class="col-lg-4">
+  <hr class="col-lg-12" />
+  <div class="col-lg-6 offset-lg-3">
     <button class="btn btn-danger" onclick="startRecording(this);">record</button>
     <button class="btn btn-info" onclick="stopRecording(this);" disabled>stop</button>
     <label class="btn btn-warning">
@@ -30,11 +32,11 @@
     <h2>Log</h2>
     <pre id="log"></pre>
   </div>
-  <div class="col-lg-8">
+<!--   <div class="col-lg-8">
     <h2 class="text-center">Recordings</h2>
     <ul id="recordingslist"></ul>
-    <recordings></recordings>
-  </div>
+    
+  </div> -->
  </div>
 </div>
   <script src="recorder.js"></script>

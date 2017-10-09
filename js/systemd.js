@@ -17,7 +17,7 @@ function uploadAudio(files) {
 }
 
 function createAudioElm(file,uID,name) {
-  console.log("uid "+uID);
+  // console.log("uid "+uID);
   var au = document.createElement('audio');
   au.controls = true;
   au.src = URL.createObjectURL(file);
@@ -60,9 +60,9 @@ function selectAudio(uID) {
 }
 
 var OUTLIST = [
-  23,
-  42,
-  64
+  // {src:"http://localhost:8000/wav/test1.wav",name:"test1" ,uID:"12345678901"},
+  // {src:"http://localhost:8000/wav/test2.wav",name:"test2" ,uID:"12345678902"},
+  // {src:"http://localhost:8000/wav/test3.wav",name:"test3" ,uID:"12345678903"},
 ];
 
 
@@ -72,4 +72,25 @@ function dispatcher(tagname,updateobj,options) {
     tag[u] = updateobj[u];
   }
   if(options.update||false) tag.update();
+}
+
+function addToOutList(dataIndexed) {
+  var outA = [];
+  for(var i in dataIndexed) {
+    var src = URL.createObjectURL(dataIndexed[i].data);
+    outA.push({
+      id:i,
+      src:src,
+      name:dataIndexed[i].name,
+      uID:dataIndexed[i].uID,
+      lPos:parseInt(i),
+      kPlay:dataIndexed[i].kPlay
+    });  
+  }
+
+  dispatcher("recordings",{testlist:orderByKey(outA,"lPos")},{update:true});
+}
+
+function orderByKey(list,key) {
+  return list.sort(function(a,b) { return a[key] - b[key]; });
 }

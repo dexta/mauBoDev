@@ -58,4 +58,5 @@ window.onload = function init() {
   navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
     __log('No live audio input: ' + e);
   });
+
 };
