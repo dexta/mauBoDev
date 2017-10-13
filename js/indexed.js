@@ -4,7 +4,7 @@
 var debugA;
 var db = new Dexie("audio_database");
 db.version(1).stores({
-    audioStore: 'uID,name,data,lPos,kPlay'
+    audioStore: 'uID,bUrl,name,lPos,kPlay'
 });
 db.open();
 var collection = db.audioStore.where('name').startsWithIgnoreCase('t');
@@ -14,22 +14,22 @@ var collection = db.audioStore.where('name').startsWithIgnoreCase('t');
 //     // createAudioElm(datas.data,datas.uID,datas.name);
     
 // });
+function getAllAudio() {
+  collection.toArray(function(data) {
+    addToOutList(data);
+    // console.dir(data);
+  });  
+}
 
-collection.toArray((data)=> {
-  addToOutList(data);
-  console.dir(data);
-});
-
-
-function updateAudio() {
-
+function updateAudio(uID,upObj) {
+  db.audioStore.update(uID,upObj);
 }
 
 
-function storeAudio(audioFile,uID,name) {
+function storeAudio(uID, bURL, name, lPos, kPlay) {
   // Put some data into it
   //
-  db.audioStore.put({name: name, uID: uID,data: audioFile}).then (function(){
+  db.audioStore.put({ uID: uID, bURL: bURL, name: name, lPos: lPos, kPlay: kPlay }).then (function(){
       //
       // Then when data is stored, read from it
       //

@@ -45,8 +45,12 @@ function createAudioElm(file,uID,name) {
 function createDownloadLink() {
   recorder && recorder.exportWAV(function(blob) {
     var tmpID = createIDs();
-    storeAudio(blob,tmpID[0],tmpID[1]);
-    createAudioElm(blob,tmpID[0],tmpID[1]);
+    var bURL = URL.createObjectURL(blob);
+    storeAudio(tmpID[0], blob, tmpID[1], -1, '');
+    addToOutList([{ uID: tmpID[0], bURL: blob, name: tmpID[1], lPos: -1, kPlay: '' }])
+
+    // 
+    // createAudioElm(blob,tmpID[0],tmpID[1]);
   });
 }
 
@@ -68,27 +72,33 @@ var OUTLIST = [
 
 function dispatcher(tagname,updateobj,options) {
   var tag = document.querySelector(tagname)._tag;
+  // if(!tag) return;
+  // console.log("the tag "+tag);
   for(var u in updateobj) {
     tag[u] = updateobj[u];
   }
   if(options.update||false) tag.update();
 }
 
-function addToOutList(dataIndexed) {
-  var outA = [];
-  for(var i in dataIndexed) {
-    var src = URL.createObjectURL(dataIndexed[i].data);
-    outA.push({
-      id:i,
-      src:src,
-      name:dataIndexed[i].name,
-      uID:dataIndexed[i].uID,
-      lPos:parseInt(i),
-      kPlay:dataIndexed[i].kPlay
-    });  
+function addToOutList(data) {
+  for(var d in data) {
+    var hit = false;
+    for(var a in audioList) {
+      if(data[d].uID===audioList[a].uID) {
+        audioList[a] = data[d];
+        hit = true;
+        break;
+      }
+    }
+    if(!hit) {
+      data[d].bURL = URL.createObjectURL(data[d].bURL);
+      if(data[d].lPos===-1) data[d].lPos =  audioList.length;
+      audioList.push(data[d]);
+    }
+    // console.log("d and a "+d,a);
   }
-
-  dispatcher("recordings",{testlist:orderByKey(outA,"lPos")},{update:true});
+  // console.dir(orderByKey(audioList,"lPos"));
+  dispatcher("recordings",{testlist:orderByKey(audioList,"lPos")},{update:true});
 }
 
 function orderByKey(list,key) {
