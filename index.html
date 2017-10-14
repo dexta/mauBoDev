@@ -15,11 +15,12 @@
 </head>
 <body>
 <div class="container">
+ <recordings></recordings>
  <div class="row">
-  <div class="col-lg-10 offset-lg-1">
+  <!-- <div class="col-lg-10 offset-lg-1"> -->
     <!-- <numberboard></numberboard> -->
-    <recordings></recordings>
-  </div>
+    
+  <!-- </div> -->
   <hr class="col-lg-12" />
   <div class="col-lg-6 offset-lg-3">
     <button class="btn btn-danger" onclick="startRecording(this);">record</button>
@@ -37,6 +38,7 @@
     <ul id="recordingslist"></ul>
     
   </div> -->
+
  </div>
 </div>
   <script src="recorder.js"></script>
@@ -45,6 +47,7 @@
   <!-- <inner-tag/> is specified on external file -->
   <script src="components/numberboard.tag" type="riot/tag"></script>
   <script src="components/recordings.tag" type="riot/tag"></script>
+  <script src="components/rg-audio.tag" type="riot/tag"></script>
   <!-- include riot.js and the compiler -->
   <script src="https://cdn.jsdelivr.net/npm/riot@3.7/riot+compiler.min.js"></script>
   <!-- Include Dexie -->
