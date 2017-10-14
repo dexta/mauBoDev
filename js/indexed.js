@@ -7,7 +7,7 @@ db.version(1).stores({
     audioStore: 'uID,bUrl,name,lPos,kPlay'
 });
 db.open();
-var collection = db.audioStore.where('name').startsWithIgnoreCase('t');
+
 
 // collection.each(function(datas) {
 //     console.log('Found: Name ' + datas.name + ' with uID ' + datas.uID);
@@ -15,20 +15,29 @@ var collection = db.audioStore.where('name').startsWithIgnoreCase('t');
     
 // });
 function getAllAudio() {
-  collection.toArray(function(data) {
+  // var collection = db.audioStore.where('uID').startsWithIgnoreCase('15');
+  // var collection = db.audioStore.where('uID').above('1');
+  db.audioStore.toArray(function(data) {
+    console.dir(data);
     addToOutList(data);
-    // console.dir(data);
+    
   });  
 }
+
+getAllAudio();
 
 function updateAudio(uID,upObj) {
   db.audioStore.update(uID,upObj);
 }
 
+function deleteAudio(uID) {
+  db.audioStore.delete(uID);
+}
 
 function storeAudio(uID, bURL, name, lPos, kPlay) {
   // Put some data into it
   //
+  console.log("store Audio "+uID,name);
   db.audioStore.put({ uID: uID, bURL: bURL, name: name, lPos: lPos, kPlay: kPlay }).then (function(){
       //
       // Then when data is stored, read from it
@@ -38,7 +47,7 @@ function storeAudio(uID, bURL, name, lPos, kPlay) {
       //
       // Display the result
       //
-      console.log("sort name is " + datas.name);
+      console.log("New entry to DB name: " + datas.name);
   }).catch(function(error) {
      //
      // Finally don't forget to catch any error

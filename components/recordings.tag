@@ -5,7 +5,7 @@
       <!-- <button class="btn btn-danger" onclick={ editLine(index) }><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
      <div class="col-lg-6">
       <button class="btn btn-info">{ line.lPos }</button>
-      <button class="btn btn-warning" onclick={ setHorn(index) }><i class="fa fa-bullhorn" aria-hidden="true"></i></button>
+      <button class="btn btn-warning" onclick={ setHorn(index) }><i if={line.kPlay==""} class="fa fa-bullhorn" aria-hidden="true"></i>{ upperKey(index) }</button>
       <button class="btn btn-default" onclick={ listUp(index) }>
         <i class="fa fa-chevron-up" aria-hidden="true"></i>
       </button>
@@ -13,9 +13,12 @@
         <i class="fa fa-chevron-down" aria-hidden="true"></i>
       </button>
       <label if={lineNoEdit!=index} onclick={ editLine(index) }>{ line.name }</label>
+      <button if={lineNoEdit===index} class="btn btn-danger" onclick={ deleteLine(index) }> <i class="fa fa-trash" aria-hidden="true"></i> </button>
       <input if={lineNoEdit===index} value={line.name} ref="newNameInput" />
-      <button if={lineNoEdit===index} class="btn btn-danger" onclick={saveName()}>Save</button>
+      <button if={lineNoEdit===index} class="btn btn-success" onclick={saveName()}>Save</button>
+
      </div>
+
      <div class="col-lg-3">
       <audio src="{ line.bURL }" id="{ line.uID }" controls></audio>
      </div>
@@ -43,7 +46,8 @@
     this.lineNoEdit = -1;
     this.keyListen = -1;
 
-    getAllAudio();
+    // getAllAudio();
+    console.dir(this.testlist);
 
     this.editLine = function(clickObj) {
       return () => {
@@ -63,6 +67,16 @@
         updateAudio(that.testlist[that.lineNoEdit].uID,{name:newName});
         that.testlist[that.lineNoEdit].name = newName;
         that.lineNoEdit = -1;
+      }
+    };
+
+    this.deleteLine = function(index) {
+      return () => {
+        deleteAudio(that.testlist[index].uID);
+        delete that.testlist[index];
+        that.testlist = clearList(that.testlist);
+        that.lineNoEdit = -1;
+        console.dir(that.testlist);
       }
     };
 
@@ -131,6 +145,13 @@
       }
     }
 
+    this.upperKey = function(index) {
+      if(that.testlist[index].kPlay!="") {
+        return String.fromCharCode(that.testlist[index].kPlay);
+      }
+      return "";
+    }
+
     this.setHorn = function(index) {
       return () => {
         console.log("setHorn index "+index);
@@ -143,6 +164,7 @@
         this.testlist[this.keyListen].kPlay = keyCode;
         updateAudio(this.testlist[this.keyListen].uID,{kPlay:keyCode});
         this.keyListen=-1;
+        this.update();
       } else {
         var didWe = this.testlist.find(d => d.kPlay === keyCode);
         if(didWe||false) {
