@@ -14,6 +14,14 @@ function convertToMp3(idList,loglist) {
   });
 }
 
+function justEncode(buffer) {
+  var encoder = new Mp3LameEncoder(44100, 192);
+  
+  encoder.encode(buffer);
+  var enfin = encoder.finish("audio/mp3");
+  saveAs(enfin,"testEncode.mp3");
+}
+
 function fromArrayBufferToMp3(buffer,data,loglist) {
   var encoder = new Mp3LameEncoder(44100, 192);
   

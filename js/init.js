@@ -41,6 +41,20 @@ function stopRecording(button) {
   recorder.clear();
 }
 
+function stopEncode(button) {
+  recorder && recorder.stop();
+  button.disabled = true;
+  button.previousElementSibling.disabled = false;
+  __log('Stopped recording.');
+  recorder && recorder.exportPCM(function(blob) {
+    console.log("stop Encode ");
+    console.dir(blob);
+    justEncode(blob);
+  });
+
+  recorder.clear();
+}
+
 window.onload = function init() {
   try {
     // webkit shim

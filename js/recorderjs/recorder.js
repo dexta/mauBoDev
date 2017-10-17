@@ -49,7 +49,8 @@ var Recorder = exports.Recorder = (function () {
         this.recording = false;
         this.callbacks = {
             getBuffer: [],
-            exportWAV: []
+            exportWAV: [],
+            exportPCM: []
         };
 
         Object.assign(this.config, cfg);
@@ -90,6 +91,9 @@ var Recorder = exports.Recorder = (function () {
                     case 'exportWAV':
                         exportWAV(e.data.type);
                         break;
+                    case 'exportPCM':
+                        exportPCM(e.data.type);
+                        break;
                     case 'getBuffer':
                         getBuffer();
                         break;
@@ -127,6 +131,15 @@ var Recorder = exports.Recorder = (function () {
                 var audioBlob = new Blob([dataview], { type: type });
 
                 self.postMessage({ command: 'exportWAV', data: audioBlob });
+            }
+
+            function exportPCM(type) {
+                var buffers = [];
+                for (var channel = 0; channel < numChannels; channel++) {
+                    buffers.push(mergeBuffers(recBuffers[channel], recLength));
+                }
+                console.log("number of chanel "+buffers.length);
+                self.postMessage({ command: 'exportPCM', data: buffers });
             }
 
             function getBuffer() {
@@ -276,6 +289,20 @@ var Recorder = exports.Recorder = (function () {
 
             this.worker.postMessage({
                 command: 'exportWAV',
+                type: mimeType
+            });
+        }
+    }, {
+        key: 'exportPCM',
+        value: function exportPCM(cb, mimeType) {
+            mimeType = mimeType || this.config.mimeType;
+            cb = cb || this.config.callback;
+            if (!cb) throw new Error('Callback not set');
+
+            this.callbacks.exportPCM.push(cb);
+
+            this.worker.postMessage({
+                command: 'exportPCM',
                 type: mimeType
             });
         }
