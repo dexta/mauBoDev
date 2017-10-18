@@ -15,7 +15,9 @@
 </head>
 <body>
 <div class="container">
+ <hr class="col-lg-12" />
  <recordings></recordings>
+ 
  <div class="row">
   <!-- <div class="col-lg-10 offset-lg-1"> -->
     <!-- <numberboard></numberboard> -->
@@ -23,13 +25,15 @@
   <!-- </div> -->
   <hr class="col-lg-12" />
   <div class="col-lg-4 offset-lg-1">
+   
     <button class="btn btn-danger" onclick="startRecording(this);">record</button>
     <button class="btn btn-info" onclick="stopRecording(this);" disabled>stop</button>
     <!-- <button class="btn btn-success" onclick="stopEncode(this);">stop & encode</button> -->
-    <label class="btn btn-warning">
+    <label class="btn btn-warning" style="margin-top: 0.5rem">
       Upload
       <input type="file" id="audioUpload" onchange="uploadAudio(this.files);" style="display:none;">
     </label>
+   
     <hr />
     <h2>Log</h2>
     <pre id="log"></pre>
@@ -52,7 +56,7 @@
   <script> Mp3LameEncoderConfig = { memoryInitializerPrefixURL: "js/mp3LameLib/" }; </script>
   <script src="js/mp3LameLib/Mp3LameEncoder.min.js"></script>
   
-  <script src="js/lamejs/lame.min.js"></script>
+  <!-- // <script src="js/lamejs/lame.min.js"></script> -->
 
 
 

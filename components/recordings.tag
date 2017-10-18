@@ -3,23 +3,29 @@
     <!-- <div> -->
       <hr if={lineNoEdit===index}>
       <!-- <button class="btn btn-danger" onclick={ editLine(index) }><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
-     <div class="col-lg-6">
+     <div class="col-lg-2">
       <button class="btn btn-info">{ line.lPos }</button>
       <button class="btn btn-warning" onclick={ setHorn(index) }><i if={line.kPlay==""} class="fa fa-bullhorn" aria-hidden="true"></i>{ upperKey(index) }</button>
+     </div>
+     <div class="col-lg-2">
       <button class="btn btn-default" onclick={ listUp(index) }>
         <i class="fa fa-chevron-up" aria-hidden="true"></i>
       </button>
       <button class="btn btn-default" onclick={ listDown(index) }>
         <i class="fa fa-chevron-down" aria-hidden="true"></i>
       </button>
+     </div>
+     <div class="col-lg-4">
       <label if={lineNoEdit!=index} onclick={ editLine(index) }>{ line.name }</label>
-      <button if={lineNoEdit===index} class="btn btn-danger" onclick={ deleteLine(index) }> <i class="fa fa-trash" aria-hidden="true"></i> </button>
-      <input if={lineNoEdit===index} value={line.name} ref="newNameInput" />
-      <button if={lineNoEdit===index} class="btn btn-success" onclick={saveName()}>Save</button>
-
+      <div if={lineNoEdit===index} class="input-group">
+        <button class="btn btn-danger" onclick={ deleteLine(index) }> <i class="fa fa-trash" aria-hidden="true"></i> </button>
+        <input value={line.name} ref="newNameInput" class="form-control" placeholder="a short name" />
+        <button class="btn btn-success" onclick={saveName()}>Save</button>
+      </div>
+      
      </div>
 
-     <div class="col-lg-3">
+     <div class="col-lg-4">
       <audio src="{ line.bURL }" id="{ line.uID }" controls></audio>
      </div>
       <hr if={lineNoEdit===index}>

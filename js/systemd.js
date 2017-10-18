@@ -35,18 +35,18 @@ function uploadAudio(files) {
   // createAudioElm(files[0],tmpID[0],tmpID[1]);
 }
 
-function xeleve(buffer) {
-  var nBuffR = new Float32Array(buffer.length/2);
-  var nBuffL = new Float32Array(buffer.length/2);
-  var count = 0;
-  for(var b=0;b<=buffer.length;b+=2) {
-    count++;
-    nBuffL.push(buffer[b]); 
-    nBuffR.push(buffer[b+1]); 
-  }
-  console.log("the count "+count);
-  return [nBuffR,nBuffL];
-}
+// function xeleve(buffer) {
+//   var nBuffR = new Float32Array(buffer.length/2);
+//   var nBuffL = new Float32Array(buffer.length/2);
+//   var count = 0;
+//   for(var b=0;b<=buffer.length;b+=2) {
+//     count++;
+//     nBuffL.push(buffer[b]); 
+//     nBuffR.push(buffer[b+1]); 
+//   }
+//   console.log("the count "+count);
+//   return [nBuffR,nBuffL];
+// }
 
 
 
@@ -84,14 +84,14 @@ function addAudioToAll(file) {
 }
 
 
-function createDownloadLink() {
-  recorder && recorder.exportWAV(function(blob) {
+// function createDownloadLink() {
+//   recorder && recorder.exportWAV(function(blob) {
     
-    addAudioToAll(blob);
-    // 
-    // createAudioElm(blob,tmpID[0],tmpID[1]);
-  });
-}
+//     addAudioToAll(blob);
+//     // 
+//     // createAudioElm(blob,tmpID[0],tmpID[1]);
+//   });
+// }
 
 // function selectAudio(uID) {
 //   console.log("select audio "+uID+" and hotnumber "+hotNumber);
