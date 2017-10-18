@@ -11,11 +11,41 @@ function createIDs() {
 }
 
 function uploadAudio(files) {
-  addAudioToAll(files[0]);
+  console.dir(files[0]);
+
+  var fr = new FileReader();
+  fr.onload = function(data) {
+    // console.dir(data);
+    // console.dir(this.result);
+    var decoder = new WAVDecoder();
+    var decoded = decoder.decode(this.result);
+    console.dir(decoded);
+    // console.dir(xeleve(this.result));
+    justEncode(decoded.channels);
+  }
+  fr.readAsBinaryString(files[0]);
+  // fr.readAsArrayBuffer(files[0]);
+
+  // addAudioToAll(files[0]);
   // var tmpID = createIDs();
   // storeAudio(files[0],tmpID[0],tmpID[1]);
   // createAudioElm(files[0],tmpID[0],tmpID[1]);
 }
+
+function xeleve(buffer) {
+  var nBuffR = new Float32Array(buffer.length/2);
+  var nBuffL = new Float32Array(buffer.length/2);
+  var count = 0;
+  for(var b=0;b<=buffer.length;b+=2) {
+    count++;
+    nBuffL.push(buffer[b]); 
+    nBuffR.push(buffer[b+1]); 
+  }
+  console.log("the count "+count);
+  return [nBuffR,nBuffL];
+}
+
+
 
 // function createAudioElm(file,uID,name) {
 //   // console.log("uid "+uID);
@@ -121,3 +151,17 @@ function clearList(list) {
   }
   return nList;
 }
+
+function doSomeWith(msg) {
+  if(msg.indexOf("WAV")) {
+    console.dir("alarm "+msg);
+  }
+}
+
+(function(){
+    var oldLog = console.log;
+    console.log = function (message) {
+        doSomeWith(message);
+        oldLog.apply(console, arguments);
+    };
+})();
