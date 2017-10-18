@@ -21,7 +21,10 @@ function uploadAudio(files) {
     var decoded = decoder.decode(this.result);
     console.dir(decoded);
     // console.dir(xeleve(this.result));
-    justEncode(decoded.channels);
+    mp3ncode(decoded.channels,function(tmp3){
+      __log("Store new upload");
+      addAudioToAll(tmp3);
+    });
   }
   fr.readAsBinaryString(files[0]);
   // fr.readAsArrayBuffer(files[0]);
@@ -152,16 +155,20 @@ function clearList(list) {
   return nList;
 }
 
-function doSomeWith(msg) {
-  if(msg.indexOf("WAV")) {
-    console.dir("alarm "+msg);
-  }
-}
 
-(function(){
-    var oldLog = console.log;
-    console.log = function (message) {
-        doSomeWith(message);
-        oldLog.apply(console, arguments);
-    };
-})();
+// crazy hack to maybe keep on track with console error throw by 3rdParty lib
+// crossing finger to never need it in real life
+
+// function doSomeWith(msg) {
+//   if(msg.indexOf("bad WAV")!=-1) {
+//     alert("alarm "+msg);
+//   }
+// }
+
+// (function(){
+//     var oldLog = console.log;
+//     console.log = function (message) {
+//         doSomeWith(message);
+//         oldLog.apply(console, arguments);
+//     };
+// })();

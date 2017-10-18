@@ -6,8 +6,8 @@ var audio_context;
 var recorder;
 var audioList = [];
 var audioMap = {};
-var hotNumber = -1;
-var programmNumber = false;
+// var hotNumber = -1;
+// var programmNumber = false;
 
 
 function startUserMedia(stream) {
@@ -29,29 +29,34 @@ function startRecording(button) {
   __log('Recording...');
 }
 
+// function old_stopRecording(button) {
+//   recorder && recorder.stop();
+//   button.disabled = true;
+//   button.previousElementSibling.disabled = false;
+//   __log('Stopped recording.');
+  
+//   // create WAV download link using audio data blob
+//   createDownloadLink();
+  
+//   recorder.clear();
+// }
+
 function stopRecording(button) {
   recorder && recorder.stop();
   button.disabled = true;
   button.previousElementSibling.disabled = false;
   __log('Stopped recording.');
   
-  // create WAV download link using audio data blob
-  createDownloadLink();
-  
-  recorder.clear();
-}
-
-function stopEncode(button) {
-  recorder && recorder.stop();
-  button.disabled = true;
-  button.previousElementSibling.disabled = false;
-  __log('Stopped recording.');
-  recorder && recorder.exportPCM(function(blob) {
-    console.log("stop Encode ");
-    console.dir(blob);
-    justEncode(blob);
+  recorder && recorder.exportPCM(function(bufferArray) {
+    __log('Start encoding....');  
+    // console.dir(bufferArray);
+    mp3ncode(bufferArray,function(tmp3){
+      __log("Stop encodeing !");
+      addAudioToAll(tmp3);
+      console.dir(tmp3);  
+    });
+    
   });
-
   recorder.clear();
 }
 
