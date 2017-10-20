@@ -4,12 +4,11 @@
     <li each={ line, index in exportLog }> { line } </li>
   </ul>
 
-
-
   <script>
+    that = this;
     this.exportLog = ["start log","first entry"];
     this.startExport = () => {
-      convertToMp3([],this.exportLog);
+      everythinkToZip("newTest.zip",{no:false});
     };
     
 
