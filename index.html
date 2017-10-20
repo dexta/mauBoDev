@@ -3,51 +3,35 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Audio Board</title>
-  
-
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-</head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
 <body>
 <div class="container">
- <hr class="col-lg-12" />
- <recordings></recordings>
- 
- <div class="row">
-  <!-- <div class="col-lg-10 offset-lg-1"> -->
-    <!-- <numberboard></numberboard> -->
-    
-  <!-- </div> -->
   <hr class="col-lg-12" />
-  <div class="col-lg-4 offset-lg-1">
-   
-    <button class="btn btn-danger" onclick="startRecording(this);">record</button>
-    <button class="btn btn-info" onclick="stopRecording(this);" disabled>stop</button>
-    <!-- <button class="btn btn-success" onclick="stopEncode(this);">stop & encode</button> -->
-    <label class="btn btn-warning" style="margin-top: 0.5rem">
-      Upload
-      <input type="file" id="audioUpload" onchange="uploadAudio(this.files);" style="display:none;">
-    </label>
-   
-    <hr />
-    <h2>Log</h2>
-    <pre id="log"></pre>
+  <recordings></recordings>
+ 
+  <div class="row">
+    <!-- <numberboard></numberboard> -->
+    <hr class="col-lg-12" />
+    <div class="col-lg-4 offset-lg-1">
+      <button class="btn btn-danger" onclick="startRecording(this);">record</button>
+      <button class="btn btn-info" onclick="stopRecording(this);" disabled>stop</button>
+      <label class="btn btn-warning" style="margin-top: 0.5rem">
+        Upload
+        <input type="file" id="audioUpload" onchange="uploadAudio(this.files);" style="display:none;">
+      </label>
+      <hr />
+      <h2>Log</h2>
+      <pre id="log"></pre>
+    </div>
+    <div class="col-lg-4 offset-lg-1">
+      <exporting></exporting>
+    </div>
   </div>
-  <div class="col-lg-4 offset-lg-1">
-    <exporting></exporting>
-  </div>
-<!--   <div class="col-lg-8">
-    <h2 class="text-center">Recordings</h2>
-    <ul id="recordingslist"></ul>
-    
-  </div> -->
-
- </div>
 </div>
+  <!-- include extern librarys -->
   <script src="js/recorderjs/recorder.js"></script>
   <script src="js/jsZip/jszip.min.js"></script>
   <script src="js/jsZip/filesaver.js"></script>
@@ -55,19 +39,19 @@
   <script> Mp3LameEncoderConfig = { memoryInitializerPrefixURL: "js/mp3LameLib/" }; </script>
   <script src="js/mp3LameLib/Mp3LameEncoder.min.js"></script>
   
-  <!-- // <script src="js/lamejs/lame.min.js"></script> -->
-
-
-
+  <!-- include app librarys -->
   <script src="js/init.js"></script>
   <script src="js/systemd.js"></script>
   <script src="js/exports.js"></script>
-  <!-- <inner-tag/> is specified on external file -->
+
+  <!-- include components -->
   <!-- // <script src="components/numberboard.tag" type="riot/tag"></script> -->
   <script src="components/recordings.tag" type="riot/tag"></script>
   <script src="components/exporting.tag" type="riot/tag"></script>
+
   <!-- include riot.js and the compiler -->
   <script src="https://cdn.jsdelivr.net/npm/riot@3.7/riot+compiler.min.js"></script>
+
   <!-- Include Dexie -->
   <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
 

@@ -7,18 +7,11 @@ var recorder;
 var audioList = [];
 var audioMap = {};
 var canTouchIt = false;
-// var hotNumber = -1;
-// var programmNumber = false;
-
 
 function startUserMedia(stream) {
   var input = audio_context.createMediaStreamSource(stream);
   __log('Media stream created.');
 
-  // Uncomment if you want the audio to feedback directly
-  //input.connect(audio_context.destination);
-  //__log('Input connected to audio context destination.');
-  
   recorder = new Recorder(input);
   __log('Recorder initialised.');
 }
@@ -30,18 +23,6 @@ function startRecording(button) {
   __log('Recording...');
 }
 
-// function old_stopRecording(button) {
-//   recorder && recorder.stop();
-//   button.disabled = true;
-//   button.previousElementSibling.disabled = false;
-//   __log('Stopped recording.');
-  
-//   // create WAV download link using audio data blob
-//   createDownloadLink();
-  
-//   recorder.clear();
-// }
-
 function stopRecording(button) {
   recorder && recorder.stop();
   button.disabled = true;
@@ -50,13 +31,11 @@ function stopRecording(button) {
   
   recorder && recorder.exportPCM(function(bufferArray) {
     __log('Start encoding....');  
-    // console.dir(bufferArray);
     mp3ncode(bufferArray,function(tmp3){
       __log("Stop encodeing !");
       addAudioToAll(tmp3);
       console.dir(tmp3);  
     });
-    
   });
   recorder.clear();
 }
@@ -67,6 +46,7 @@ function is_touch_device() {
 };
 
 window.onload = function init() {
+
   canTouchIt = is_touch_device();
 
   try {
