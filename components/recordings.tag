@@ -3,11 +3,16 @@
     <!-- <div> -->
       <hr if={lineNoEdit===index}>
       <!-- <button class="btn btn-danger" onclick={ editLine(index) }><i class="fa fa-pencil" aria-hidden="true"></i></button> -->
-     <div class="col-lg-2">
+     <div class="col-lg-2 col-sm-3 col-6">
       <button class="btn btn-info">{ line.lPos }</button>
-      <button class="btn btn-warning" onclick={ setHorn(index) }><i if={line.kPlay==""} class="fa fa-bullhorn" aria-hidden="true"></i>{ upperKey(index) }</button>
+      <button class="btn btn-success" onclick={ playIt(line.uID) }>
+        <i class="fa fa-play" aria-hidden="true"></i>
+      </button>
+      <button class="btn btn-warning pull-right hidden-md-down" onclick={ setHorn(index) }>
+        <i if={line.kPlay==""} class="fa fa-bullhorn" aria-hidden="true"></i>{ upperKey(index) }
+      </button>
      </div>
-     <div class="col-lg-2">
+     <div class="col-lg-2 col-sm-3 col-6">
       <button class="btn btn-default" onclick={ listUp(index) }>
         <i class="fa fa-chevron-up" aria-hidden="true"></i>
       </button>
@@ -15,7 +20,7 @@
         <i class="fa fa-chevron-down" aria-hidden="true"></i>
       </button>
      </div>
-     <div class="col-lg-4">
+     <div class="col-lg-4 col-sm-6 col-12">
       <label if={lineNoEdit!=index} onclick={ editLine(index) }>{ line.name }</label>
       <div if={lineNoEdit===index} class="input-group">
         <button class="btn btn-danger" onclick={ deleteLine(index) }> <i class="fa fa-trash" aria-hidden="true"></i> </button>
@@ -25,7 +30,7 @@
       
      </div>
 
-     <div class="col-lg-4">
+     <div class="col-lg-4 col-md-12 hidden-sm-down">
       <audio src="{ line.bURL }" id="{ line.uID }" controls></audio>
      </div>
       <hr if={lineNoEdit===index}>
@@ -166,7 +171,10 @@
     }
 
     this.recordKey = function(keyCode) {
-      if(this.keyListen!=-1) {
+      if(keyCode===27) { 
+        this.lineNoEdit = -1;
+        this.update();
+      } else if(this.keyListen!=-1) {
         this.testlist[this.keyListen].kPlay = keyCode;
         updateAudio(this.testlist[this.keyListen].uID,{kPlay:keyCode});
         this.keyListen=-1;
@@ -180,6 +188,12 @@
       return;
     }
 
+    this.playIt = function(uID) {
+      return () => {
+        console.log(uID);
+        document.getElementById(uID).play();
+      }
+    }
 
     window.addEventListener("keyup",function(e) { 
       console.log("key: "+e.key+" | code: "+e.keyCode);
