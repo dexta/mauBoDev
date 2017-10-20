@@ -9,18 +9,24 @@ function mp3ncode(buffer,callback) {
   // saveAs(fmp3,"testEncode.mp3");
 }
 
-function everythinkToZip() {
+function makeZipFile(data,name) {
   var zip = new JSZip();
   console.log("zip started ");
-  var fol = zip.folder("mp3export1-n");
-
-  for(var dm in debugMp) {
-    fol.file(dm+".mp3", debugMp[dm], {base64: false});
-    console.log("zip add file "+dm);
-  }
-
+  var fol = zip.folder("mp3xport");
+  for(var dm in data) {
+    var name = data[dm].name;
+    var blob = data[dm].bURL;
+    fol.file(name+".mp3", blob, {base64: false});
+    console.log("zip add file "+name);
+  }  
   zip.generateAsync({type:"blob"}).then(function(content) {
   // see FileSaver.js
-  saveAs(content, "example.zip");
+  saveAs(content, name);
+  });
+}
+
+function everythinkToZip() {
+  db.audioStore.toArray(function(data) {
+    makeZipFile(data,"testExample_"+new Date()*1+"_.zip");    
   });
 }
