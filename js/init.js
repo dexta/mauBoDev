@@ -6,6 +6,7 @@ var audio_context;
 var recorder;
 var audioList = [];
 var audioMap = {};
+var canTouchIt = false;
 // var hotNumber = -1;
 // var programmNumber = false;
 
@@ -60,7 +61,14 @@ function stopRecording(button) {
   recorder.clear();
 }
 
+function is_touch_device() {
+  return 'ontouchstart' in window        // works on most browsers 
+      || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+};
+
 window.onload = function init() {
+  canTouchIt = is_touch_device();
+
   try {
     // webkit shim
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
