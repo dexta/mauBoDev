@@ -9,27 +9,79 @@
   </head>
 <body>
 <div class="container">
-  <hr class="col-lg-12" />
-  <recordings></recordings>
- 
   <div class="row">
-    <!-- <numberboard></numberboard> -->
+    <div class="col-lg-2 col-2 text-center">
+      <button onclick="toggleClass('recorder','d-none')" class="btn btn-danger">Add</button>
+    </div>
+    <div class="col-lg-2 col-2 text-center">
+      <button onclick="toggleClass('recordings','d-none')" class="btn btn-info">Edit</button>
+    </div>
+    <div class="col-lg-2 col-2 text-center">
+      <button onclick="toggleClass('exporting','d-none')" class="btn btn-success">Export</button>
+    </div>
+    <div class="col-lg-2 col-2 text-center">
+      <button onclick="toggleClass('numberboard','d-none')" class="btn btn-warning">Quick Play</button>
+    </div>
+    <div class="col-lg-2 col-2 text-center">
+      <button onclick="toggleClass('loging','d-none')" class="btn btn-primary">Log</button>
+    </div>
+    <hr class="col-12">
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8 col-md-8 col-sx-12">
+      <div id="recorder" class="">
+        <button class="btn btn-danger" onclick="startRecording(this);">record</button>
+        <button class="btn btn-info" onclick="stopRecording(this);" disabled>stop</button>
+        <label class="btn btn-warning" style="margin-top: 0.5rem">
+          Upload
+          <input type="file" id="audioUpload" onchange="uploadAudio(this.files);" style="display:none;">
+        </label>
+
+        <hr class="col-12" />
+      </div>
+    
+    <div id="exporting" class="d-none">
+      <exporting></exporting>
+
+      <hr class="col-12" />
+    </div>
+    
+    </div>  
+    <div id="loging" class="col-lg-4 col-md-4 col-12 d-none">
+      <div class="card" >
+        <div class="card-header">
+          <h2>Log</h2>
+        </div>
+        <div class="card-body">
+          <pre id="log"></pre>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="row d-none" id="numberboard">
+    <numberboard></numberboard>
+    <hr class="col-12">
+  </div>
+    
+  <div class="row" id="recordings">
+    <!-- <div class="col-lg-8 col-md-8 col-sx-12"> -->
+    <recordings></recordings>
+    <hr class="col-12" />
+    <!-- </div> -->
+  </div>
+
+
+<!--   <div class="row">
     <hr class="col-lg-12" />
     <div class="col-lg-4 offset-lg-1">
-      <button class="btn btn-danger" onclick="startRecording(this);">record</button>
-      <button class="btn btn-info" onclick="stopRecording(this);" disabled>stop</button>
-      <label class="btn btn-warning" style="margin-top: 0.5rem">
-        Upload
-        <input type="file" id="audioUpload" onchange="uploadAudio(this.files);" style="display:none;">
-      </label>
-      <hr />
-      <h2>Log</h2>
-      <pre id="log"></pre>
+      
+      
     </div>
-    <div class="col-lg-6 offset-lg-1">
-      <exporting></exporting>
-    </div>
-  </div>
+  </div> -->
 </div>
   <!-- include extern librarys -->
   <script src="js/recorderjs/recorder.js"></script>
@@ -45,7 +97,7 @@
   <script src="js/exports.js"></script>
 
   <!-- include components -->
-  <!-- // <script src="components/numberboard.tag" type="riot/tag"></script> -->
+  <script src="components/numberboard.tag" type="riot/tag"></script>
   <script src="components/recordings.tag" type="riot/tag"></script>
   <script src="components/exporting.tag" type="riot/tag"></script>
 
