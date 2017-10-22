@@ -7,6 +7,7 @@ var recorder;
 var audioList = [];
 var audioMap = {};
 var canTouchIt = false;
+var registeredKeyEvents = [];
 
 function startUserMedia(stream) {
   var input = audio_context.createMediaStreamSource(stream);
@@ -40,6 +41,16 @@ function stopRecording(button) {
   recorder.clear();
 }
 
+function registerNewKeyEvent(calledFunction) {
+  registeredKeyEvents.push(calledFunction);
+}
+
+function fireKeyEvents(keyCode,keyChar) {
+  for(var rE in registeredKeyEvents) {
+    registeredKeyEvents[rE](keyCode,keyChar);
+  }
+}
+
 function is_touch_device() {
   return 'ontouchstart' in window        // works on most browsers 
       || navigator.maxTouchPoints;       // works on IE10/11 and Surface
@@ -66,4 +77,10 @@ window.onload = function init() {
     __log('No live audio input: ' + e);
   });
 
+  window.addEventListener("keyup",function(e) { 
+    console.log("key: "+e.key+" | code: "+e.keyCode);
+    fireKeyEvents(e.keyCode,e.key);
+  });
+
 };
+
