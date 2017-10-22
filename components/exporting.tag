@@ -19,7 +19,7 @@
 
   <script>
     that = this;
-    this.exportType = "Number"
+    this.exportType = "Number";
     this.exportFilename = "bundle.zip";
     this.showExSelect = "";
     this.toggleExSelect = () => {
@@ -38,7 +38,7 @@
     this.startExport = () => {
       console.log(that.exportType,that.refs.newExportFilename.value);
       var options = {no: true};
-      if(that.exportType!="Number")? options.no = false;
+      if(that.exportType!="Number") options.no = false;
       everythinkToZip(that.refs.newExportFilename.value,options);
     };
     
