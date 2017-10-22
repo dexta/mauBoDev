@@ -1,7 +1,15 @@
 function playFromList(num) {
   if(audioList[num]||false) {
-    audioList[num].play();
+    document.getElementById(audioList[num].uID).play()
   } else { return 0}
+}
+
+function toggleClass(elm,cla) {
+  if(document.getElementById(elm).classList.contains(cla)) {
+    document.getElementById(elm).classList.remove(cla);
+  } else {
+    document.getElementById(elm).classList.add(cla);
+  }
 }
 
 function createIDs() {    
@@ -60,6 +68,7 @@ function addToOutList(data) {
     }
   }
   dispatcher("recordings",{testlist:orderByKey(audioList,"lPos")},{update:true});
+  dispatcher("numberboard",{audioList:orderByKey(audioList,"lPos")},{update:true});
 }
 
 function orderByKey(list,key) {
