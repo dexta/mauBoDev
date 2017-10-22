@@ -1,7 +1,7 @@
 <recordings>
   <div class="row" each={ line, index in testlist }>
     <hr if={lineNoEdit===index}>
-    <div class="col-lg-2 col-sm-3 col-6">
+    <div class="col-lg-3 col-sm-3 col-6">
       <button class="btn btn-info">{ line.lPos }</button>
       <button class="btn btn-success" onclick={ playIt(line.uID) }>
         <i class="fa fa-play" aria-hidden="true"></i>
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    <div class="col-lg-4 col-md-12 hidden-sm-down">
+    <div class="col-lg-3 col-md-12 hidden-sm-down">
       <audio src="{ line.bURL }" id="{ line.uID }" controls></audio>
     </div>
     <hr if={lineNoEdit===index}>
@@ -123,7 +123,14 @@
       }
     };
 
-    this.recordKey = function(keyCode) {
+    this.playIt = function(uID) {
+      return () => {
+        console.log(uID);
+        document.getElementById(uID).play();
+      }
+    };
+
+    registerNewKeyEvent( (keyCode,keyChar) => {
       if(keyCode===27) { 
         this.lineNoEdit = -1;
         this.update();
@@ -139,18 +146,6 @@
         }
       }
       return;
-    };
-
-    this.playIt = function(uID) {
-      return () => {
-        console.log(uID);
-        document.getElementById(uID).play();
-      }
-    };
-
-    window.addEventListener("keyup",function(e) { 
-      console.log("key: "+e.key+" | code: "+e.keyCode);
-      that.recordKey(e.keyCode);
     });
 
   </script>
