@@ -2,28 +2,17 @@
 // Define your database
 //
 var debugA;
-var db = new Dexie("audio_database", {
-    indexedDB: window.indexedDB, // or the shim's version
-    IDBKeyRange: window.IDBKeyRange // or the shim's version.
-});
+var db = new Dexie("audio_database");
+// thats it safari you are no longer supported
 db.version(1).stores({
     audioStore: 'uID,bUrl,name,lPos,kPlay'
 });
 db.open();
 
-
-// collection.each(function(datas) {
-//     console.log('Found: Name ' + datas.name + ' with uID ' + datas.uID);
-//     // createAudioElm(datas.data,datas.uID,datas.name);
-    
-// });
 function getAllAudio() {
-  // var collection = db.audioStore.where('uID').startsWithIgnoreCase('15');
-  // var collection = db.audioStore.where('uID').above('1');
   db.audioStore.toArray(function(data) {
     console.dir(data);
     addToOutList(data);
-    
   });  
 }
 
@@ -42,21 +31,10 @@ function storeAudio(uID, bURL, name, lPos, kPlay) {
   //
   console.log("store Audio "+uID,name);
   db.audioStore.put({ uID: uID, bURL: bURL, name: name, lPos: lPos, kPlay: kPlay }).then (function(){
-      //
-      // Then when data is stored, read from it
-      //
-      return db.audioStore.get(uID);
+    return db.audioStore.get(uID);
   }).then(function (datas) {
-      //
-      // Display the result
-      //
-      console.log("New entry to DB name: " + datas.name);
+    console.log("New entry to DB name: " + datas.name);
   }).catch(function(error) {
-     //
-     // Finally don't forget to catch any error
-     // that could have happened anywhere in the
-     // code blocks above.
-     //
-     alert ("Ooops: " + error);
+   alert ("Ooops: " + error);
   });
 }
