@@ -2,7 +2,10 @@
 // Define your database
 //
 var debugA;
-var db = new Dexie("audio_database");
+var db = new Dexie("audio_database", {
+    indexedDB: window.indexedDB, // or the shim's version
+    IDBKeyRange: window.IDBKeyRange // or the shim's version.
+});
 db.version(1).stores({
     audioStore: 'uID,bUrl,name,lPos,kPlay'
 });
