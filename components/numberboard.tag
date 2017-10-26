@@ -1,53 +1,39 @@
-<numberboard>
-  <h3 class="text-center">Press a Number</h3>
-  <table class="table table-bordered">
-    <tr each={ line, index in boardWire }>
-      <td each={ btn,index in line }>
-        <button class="btn btn-lg btn-default" onclick={ playNum(btn.num) } data-toggle="tooltip" data-placement="top" title="{btn.name}">
-          <span> { btn.num } </span>
-          <!-- <span if={ !btn.icon }> { btn.num },{ btn.name } </span> -->
-          <!-- <span if={ btn.icon }> { btn.num } , <i class="fa fa-{ btn.icon }" aria-hidden="true"></i></span> -->
-        </button>
-      </td>
-    </tr>
-  </table>
+<numberboard class="row">
+  <div class="col-lg-1 col-md-1 col-3" each={ line,index in boardWire }>
+    <button class="btn btn-lg btn-default" onclick={ playNum(line.uID) } data-toggle="tooltip" data-placement="top" title="{line.name}">
+      { line.num }
+    </button>
+  </div>
 
   <script>
   var that = this;
   this.audioList = [];
   this.keyList = {};
-  this.boardWire = [
-    [{num:"1",name:"Eins"},{num:"2",name:"Zwei"},{num:"3",name:"drei"}],
-    [{num:"4",name:"Vier"},{num:"5",name:"Fuenf"},{num:"6",name:"Sechs"}],
-    [{num:"7",name:"Sieben"},{num:"8",name:"Acht"},{num:"9",name:"Neun"}],
-    [ {num:"-",name:"minus"},{num:"0",name:"Null"},{num:"+",name:"plus"}]
-  ];
+  this.boardWire = [];
   
   this.on('update', function() {
     console.log("numberboard list count "+this.audioList.length);
-    for(let x in this.boardWire) {
-      for(let y in this.boardWire[x]) {
-        let snum = parseInt(this.boardWire[x][y].num);
-        let hasName = this.audioList.find( (e) => { return e.lPos==snum});
-        if(hasName||false) {
-          this.boardWire[x][y].name = hasName.name;
-          this.keyList[snum] = hasName.uID;
-          // console.dir(hasName);
-        }
+    for(let x in this.audioList) {
+      this.boardWire[x] = {};
+      if(this.audioList[x].kPlay!="") {
+        this.boardWire[x].num = String.fromCharCode(this.audioList[x].kPlay);
+      } else {
+        this.boardWire[x].num = (this.audioList[x].lPos<=9)? this.audioList[x].lPos : "XX";
       }
+      
+      this.boardWire[x].uID = this.audioList[x].uID;
+      this.boardWire[x].name = this.audioList[x].name;
     }
   });
 
   registerNewKeyEvent( (code,kchar) => {
-    console.log("press code: "+code+" and char: "+kchar);
     if(this.keyList[kchar]||false) {
       document.getElementById(this.keyList[kchar]).play();
     }
   });
 
-  playNum(num) { 
+  playNum(uID) { 
     return function(e) { 
-      let uID = that.keyList[num];
       document.getElementById(uID).play();
     }
   }
