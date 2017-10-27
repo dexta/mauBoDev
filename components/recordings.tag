@@ -2,6 +2,7 @@
   <div class="row" each={ line, index in testlist }>
     <hr if={lineNoEdit===index}>
     <div class="col-lg-3 col-sm-3 col-6">
+      <button if={lineNoEdit===index} class="btn btn-danger" onclick={ deleteLine(index) }> <i class="fa fa-trash" aria-hidden="true"></i> </button>
       <button class="btn btn-info">{ line.lPos }</button>
       <button class="btn btn-success" onclick={ playIt(line.uID) }>
         <i class="fa fa-play" aria-hidden="true"></i>
@@ -26,7 +27,6 @@
         <input type="text" class="form-control" placeholder="{ line.name }" aria-label="Input group example" aria-describedby="btnGroupAddon">
       </div>
       <div if={lineNoEdit===index} class="input-group">
-        <button class="btn btn-danger" onclick={ deleteLine(index) }> <i class="fa fa-trash" aria-hidden="true"></i> </button>
         <input value={line.name} ref="newNameInput" class="form-control" placeholder="a short name" />
         <button class="btn btn-success" onclick={saveName()}>
           <i class="fa fa-floppy-o" aria-hidden="true"></i>
