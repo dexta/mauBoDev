@@ -9,6 +9,7 @@
   </head>
 <body>
 <div class="container">
+  <!-- Menu line - todo: more responsive -->
   <div class="row">
     <div class="col-lg-2 col-2 text-center">
       <button onclick="toggleClass('recorder','d-none')" class="btn btn-danger">Add</button>
@@ -23,13 +24,17 @@
       <button onclick="toggleClass('numberboard','d-none')" class="btn btn-warning">Quick Play</button>
     </div>
     <div class="col-lg-2 col-2 text-center">
-      <button onclick="toggleClass('loging','d-none')" class="btn btn-primary">Log</button>
+      <button onclick="toggleClass('logging','d-none')" class="btn btn-primary">Log</button>
     </div>
     <hr class="col-12">
   </div>
+  <!-- end of Menu -->
 
+  <!-- one block of import/export/logging -->
   <div class="row">
+
     <div class="col-lg-8 col-md-8 col-sx-12">
+      <!-- input section -->
       <div id="recorder" class="">
         <button class="btn btn-danger" onclick="startRecording(this);">record</button>
         <button class="btn btn-info" onclick="stopRecording(this);" disabled>stop</button>
@@ -37,18 +42,16 @@
           Upload
           <input type="file" id="audioUpload" onchange="uploadAudio(this.files);" style="display:none;">
         </label>
-
         <hr class="col-12" />
       </div>
-    
-    <div id="exporting" class="d-none">
-      <exporting></exporting>
-
-      <hr class="col-12" />
+      <!-- output section -->
+      <div id="exporting" class="d-none">
+        <exporting></exporting>
+        <hr class="col-12" />
+      </div>
     </div>
-    
-    </div>  
-    <div id="loging" class="col-lg-4 col-md-4 col-12 d-none">
+    <!-- Logging -->
+    <div id="logging" class="col-lg-4 col-md-4 col-12 d-none">
       <div class="card" >
         <div class="card-header">
           <h2>Log</h2>
@@ -61,17 +64,19 @@
 
   </div>
 
-
+  <!-- quick play board -->
   <div class="d-none" id="numberboard">
     <numberboard></numberboard>
     <hr class="col-12">
   </div>
-    
+  
+  <!-- the recordings overview -->
   <div class="row" id="recordings">
     <recordings></recordings>
     <hr class="col-12" />
   </div>
 </div>
+
   <!-- include extern librarys -->
   <script src="js/recorderjs/recorder.js"></script>
   <script src="js/jsZip/jszip.min.js"></script>
