@@ -78,7 +78,7 @@ window.onload = function init() {
   });
 
   window.addEventListener("keyup",function(e) { 
-    console.log("key: "+e.key+" | code: "+e.keyCode);
+    // console.log("key: "+e.key+" | code: "+e.keyCode);
     fireKeyEvents(e.keyCode,e.key);
   });
 

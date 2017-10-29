@@ -19,7 +19,7 @@ function toggleClass(elm,cla) {
 var viewConfigList = [];
 function setSectionView(configList) {
   viewConfigList = configList;
-  console.dir(configList);
+  // console.dir(configList);
   for(var c in configList) {
     var elmen = document.getElementById(configList[c].key);
     if(elmen === null) continue;
@@ -49,19 +49,24 @@ function createIDs() {
 }
 
 function uploadAudio(files) {
-  console.dir(files[0]);
-
-  var fr = new FileReader();
-  fr.onload = function(data) {
-    var decoder = new WAVDecoder();
-    var decoded = decoder.decode(this.result);
-    console.dir(decoded);
-    mp3ncode(decoded.channels,function(tmp3){
-      __log("Store new upload");
-      addAudioToAll(tmp3);
-    });
+  // console.dir(files[0]);
+  if(files||files[0]||false) {
+    if(/mp3/.test(files[0].type)) {
+      addAudioToAll(files[0]);
+    } else if(/wav/.test(files[0].type)) {
+      var fr = new FileReader();
+      fr.onload = function(data) {
+        var decoder = new WAVDecoder();
+        var decoded = decoder.decode(this.result);
+        // console.dir(decoded);
+        mp3ncode(decoded.channels,function(tmp3){
+          __log("Store new upload");
+          addAudioToAll(tmp3);
+        });
+      }
+      fr.readAsBinaryString(files[0]);      
+    }
   }
-  fr.readAsBinaryString(files[0]);
 }
 
 function addAudioToAll(file) {
