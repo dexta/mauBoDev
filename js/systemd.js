@@ -5,10 +5,40 @@ function playFromList(num) {
 }
 
 function toggleClass(elm,cla) {
+  let tf = false;
   if(document.getElementById(elm).classList.contains(cla)) {
     document.getElementById(elm).classList.remove(cla);
+    tf = true;
   } else {
     document.getElementById(elm).classList.add(cla);
+    tf = false;
+  }
+  updateStateSectionView(elm,cla,tf);
+}
+
+var viewConfigList = [];
+function setSectionView(configList) {
+  viewConfigList = configList;
+  console.dir(configList);
+  for(var c in configList) {
+    var elmen = document.getElementById(configList[c].key);
+    if(elmen === null) continue;
+    if(configList[c].value===false) {
+      elmen.classList.add("d-none");
+    } else {
+      elmen.classList.remove("d-none");
+    }
+  }
+}
+
+function updateStateSectionView(elm,cla,state) {
+  var uporinsert = viewConfigList.filter( (e) => { 
+      return (e.key===elm && e.name===cla)
+    });
+  if(uporinsert[0]||false) {
+    updateSectionClass(uporinsert[0].id,elm,cla,state);
+  } else {
+    setSectionClass(elm,cla,state);
   }
 }
 
